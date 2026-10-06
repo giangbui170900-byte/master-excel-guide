@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Excel Master 7 ngày - CSKH check cân</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap">
+<style>
+:root{--bg:#f3f1ec;--card:#fff;--ink:#16203a;--mute:#5d6578;--line:#ddd9cf;--red:#d6001c;--redsoft:#fde8ea;--navy:#16203a;--navyink:#e9ecf4;--grn:#1d7a47;--grnsoft:#e3f3ea;--tgt:#fff4c2;--code:#0d1117;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f131c;--card:#192032;--ink:#ecebe5;--mute:#9ba3b6;--line:#2b344a;--redsoft:#3b1a21;--navy:#0a0e17;--grnsoft:#143323;--tgt:#4a4310;--red:#ff4a5e}}
+:root[data-theme="dark"]{--bg:#0f131c;--card:#192032;--ink:#ecebe5;--mute:#9ba3b6;--line:#2b344a;--redsoft:#3b1a21;--navy:#0a0e17;--grnsoft:#143323;--tgt:#4a4310;--red:#ff4a5e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "Be Vietnam Pro",system-ui,"Segoe UI",Arial,sans-serif}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+aside{background:var(--navy);color:var(--navyink);padding:24px 18px;position:sticky;top:0;height:100vh;overflow-y:auto;align-self:start}
+aside h1{font-size:22px;line-height:1.25;margin:0 0 6px;font-weight:800}
+aside p{margin:0 0 16px;font-size:13px;opacity:.7}
+.ov{display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:18px}
+.track{flex:1;height:8px;background:#ffffff26;border-radius:4px;overflow:hidden}.fill{height:100%;width:0;background:var(--red);transition:width .3s}
+.day{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:transparent;border:1px solid transparent;color:inherit;font:500 14px/1.3 inherit;font-family:inherit;border-radius:10px;padding:10px;margin-bottom:4px;cursor:pointer}
+.day:hover{background:#ffffff12}.day[aria-selected="true"]{background:#ffffff1c;border-color:#ffffff33}
+.dn{flex:0 0 34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:#ffffff1f}
+.day.done .dn{background:var(--grn);color:#fff}
+.day small{display:block;opacity:.6;font-size:12px;font-weight:400}
+.mob{display:none}
+main{padding:0 0 60px;min-width:0}
+.hero{background:linear-gradient(120deg,var(--navy) 55%,#8c0014);color:#fff;padding:44px clamp(20px,4vw,56px) 36px}
+.hero .big{font-size:clamp(34px,6vw,64px);font-weight:800;line-height:1.05;margin:0}
+.hero p{max-width:60ch;margin:10px 0 0;opacity:.85;font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.chip{font-size:13px;border:1px solid #ffffff55;border-radius:20px;padding:2px 12px}
+.body{padding:0 clamp(20px,4vw,56px);max-width:none}
+h2{font-size:22px;margin:36px 0 12px}
+.why{background:var(--redsoft);border-left:5px solid var(--red);border-radius:8px;padding:12px 16px;margin-top:24px}
+.step{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;transition:opacity .2s}
+.step input{width:22px;height:22px;margin-top:3px;accent-color:var(--grn);flex:0 0 auto}.step.on{opacity:.6}.step.on .st{text-decoration:line-through}
+.st{font-weight:700;cursor:pointer}.sd{margin:2px 0 0;color:var(--mute);font-size:15px}
+.code{background:var(--code);color:#f4f1e8;border-radius:8px;padding:8px 10px;margin-top:8px;display:flex;gap:10px;align-items:center}
+.code code{font:500 14px/1.5 ui-monospace,Consolas,monospace;overflow-x:auto;white-space:pre;flex:1}
+.cp{border:1px solid #667;background:transparent;color:#f4f1e8;border-radius:6px;padding:4px 10px;font:500 13px inherit;font-family:inherit;cursor:pointer}
+.lab{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.lab-h{background:var(--grn);color:#fff;padding:10px 16px;font-weight:700}
+.lab-b{padding:14px 16px}.lab-b p{margin:0 0 10px}
+.sheet{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table{border-collapse:collapse;font-size:14px;width:100%;min-width:760px}
+th{background:var(--grnsoft);color:var(--grn);font-weight:700;border:1px solid var(--line);padding:4px;text-align:center}
+td{border:1px solid var(--line);padding:0}th.r{width:34px}
+td input{width:100%;min-width:64px;border:0;background:transparent;color:inherit;font:inherit;font-size:14px;padding:6px 8px;height:34px}
+td.tgt{background:var(--tgt)}td.ok{background:var(--grnsoft)}td.bad{background:var(--redsoft)}
+td input:focus{outline:2px solid var(--grn);outline-offset:-2px}
+.bt{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.btn{border:0;background:var(--red);color:#fff;border-radius:8px;padding:10px 18px;font:700 15px inherit;font-family:inherit;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn[disabled]{opacity:.35;cursor:default}
+#res{font-weight:700}#res.g{color:var(--grn)}#res.b{color:var(--red)}
+.ex{background:var(--card);border:1px dashed var(--red);border-radius:12px;padding:6px 16px 6px 34px}.ex li{margin:8px 0}
+.nav{display:flex;justify-content:space-between;margin-top:30px}
+.note{color:var(--mute);font-size:13px;margin-top:30px}
+button:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+@media (max-width:820px){.app{display:block}aside{display:none}.mob{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;background:var(--navy);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}.mob button{flex:0 0 auto;border:1px solid #ffffff44;background:transparent;color:#fff;border-radius:8px;padding:6px 12px;font:500 13px inherit;font-family:inherit}.mob button[aria-selected="true"]{background:var(--red);border-color:var(--red)}}
+.nx{display:block;width:100%;text-align:left;background:transparent;border:0;border-top:1px solid #ffffff22;color:inherit;font:700 14px inherit;font-family:inherit;padding:12px 10px;margin-top:6px;cursor:pointer;border-radius:8px}
+.nx[aria-selected="true"],.nx:hover{background:#ffffff1c}.nx small{display:block;font-weight:400;opacity:.6}
+.tl{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.pill{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:20px;padding:5px 14px;font:500 14px inherit;font-family:inherit;cursor:pointer}
+.pill[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}.pill.dn2{border-color:var(--grn)}
+#q{width:100%;max-width:420px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.fc h3{margin:0 0 6px;font-size:17px}.fc p{margin:6px 0;font-size:14px;color:var(--mute)}
+.tag{font-size:11px;font-weight:700;border-radius:10px;padding:1px 8px;margin-left:6px;background:var(--grnsoft);color:var(--grn);vertical-align:middle}
+.tag.m{background:var(--redsoft);color:var(--red)}.tag.r{background:var(--tgt);color:var(--ink)}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:12px}.ctl label{display:flex;flex-direction:column;font-size:12px;color:var(--mute);gap:3px}
+.ctl select,.ctl input[type=text]{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;font-size:14px;min-width:130px}
+.hl-red{background:#ffb3bb!important;color:#5c0010}.hl-yel{background:#ffe680!important;color:#4a3b00}.hl-grn{background:#a8e6c1!important;color:#064d28}
+.dt td{padding:5px 10px;white-space:nowrap}.dt th{padding:4px 10px}.dt .tot{font-weight:700;background:var(--grnsoft)}
+.apl{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.apl span{background:var(--grnsoft);color:var(--grn);border-radius:6px;padding:3px 4px 3px 10px;font-size:13px;font-weight:600}.apl button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:14px}
+.tk{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px dashed var(--red);border-radius:10px;padding:10px 14px;margin-bottom:8px}.tk b{flex:1;min-width:200px;font-weight:600}.tk i{font-style:normal;font-weight:700}
+.btn.sm{padding:6px 14px;font-size:14px}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:32px;align-items:start}.colr{position:sticky;top:12px}
+@media (max-width:1150px){.cols{display:block}.colr{position:static}}
+details.fc summary{list-style:revert}details.fc ul,details.fc ol{margin:4px 0;padding-left:22px;font-size:14px;color:var(--ink)}
+code{font-family:ui-monospace,Consolas,monospace;background:var(--grnsoft);padding:1px 6px;border-radius:4px}
+</style></head><body>
+<div class="app">
+<aside><h1>Excel Master<br>trong 7 ngày</h1><p>Dành cho CSKH check cân J&amp;T. Làm lần lượt từng ngày.</p>
+<div class="ov"><span id="pt">0%</span><div class="track"><div class="fill" id="pf"></div></div></div>
+<nav id="days"></nav></aside>
+<div><div class="mob" id="mob"></div><main id="main"></main></div>
+</div>
+<script>
+var D=[
+{t:"Làm sạch dữ liệu",s:"Mã sạch, không trùng, không mất số",g:"Có danh sách mã vận đơn sạch để mọi công thức sau này chạy đúng.",m:["30 phút","Filter, TRIM, Remove Duplicates"],
+why:"Mã thừa khoảng trắng hoặc bị đổi thành 8.8E+11 là nguyên nhân số 1 gây lỗi #N/A ở bài đối chiếu.",
+steps:[
+["Đặt cột mã về dạng Text","Bôi đen cột A, chuột phải, Format Cells, chọn Text, OK. Làm trước khi dán mã vào."],
+["Xóa khoảng trắng thừa","Ở ô D2 gõ công thức bên dưới, kéo xuống hết dòng. Copy cột D, dán đè lên cột A bằng Paste Special, Values, rồi xóa cột D.","=TRIM(A2)"],
+["Xóa mã trùng","Lưu bản sao file trước. Bôi đen bảng, tab Data, Remove Duplicates, chỉ tick cột A, OK. Ghi lại số dòng đã xóa."],
+["Lọc và sắp xếp","Bấm Ctrl+Shift+L để bật Filter. Lọc cột Trạng thái = Khiếu nại, sắp cột cân từ lớn đến nhỏ."],
+["Cố định dòng tiêu đề","Tab View, Freeze Panes, Freeze Top Row."]],
+tb:[["Mã vận đơn","Cân (kg)","Trạng thái"],["880000000001","1.2","Lệch cân"],["880000000002 ␣","0.5","Bình thường"],["880000000001","1.2","Lệch cân"]],
+ex:["Gõ lại bảng mẫu (cột A để Text trước), cố ý thêm 1 dấu cách sau mã thứ hai.","Làm sạch bằng TRIM rồi Paste Values.","Remove Duplicates: Excel xóa mấy dòng?","Lọc đơn Khiếu nại và sắp theo cân.","Thử gõ mã 12 số vào ô General và ô Text, so sánh kết quả."]},
+{t:"Tính cân quy đổi",s:"Cân thực tế so với cân thể tích",g:"Tính tự động cân quy đổi và cân tính cước cho hàng nghìn đơn bằng 1 công thức.",m:["35 phút","Nhân chia, MAX, ROUNDUP"],
+why:"Cân tính cước thường là số lớn hơn giữa cân thực tế và cân quy đổi. Đây là phần giải thích cho khách nhiều nhất.",
+steps:[
+["Dựng bảng","Cột A mã, B cân thực tế (kg), C dài, D rộng, E cao (cm). Ô J1 là hệ số chia, nhập số theo quy định mới nhất [ ]. Không gõ cứng số vào công thức."],
+["Tính cân quy đổi","Ở F2, kéo xuống hết dòng. Dấu $ giữ nguyên ô hệ số khi kéo.","=C2*D2*E2/$J$1"],
+["Tính cân tính cước","Ở G2: lấy số lớn hơn giữa cân thực tế và cân quy đổi.","=MAX(B2,F2)"],
+["Làm tròn theo quy định","Nếu J&T làm tròn lên theo bước nhất định, dùng công thức dưới (ví dụ bước 0.5 kg, thay theo quy định thật [ ]).","=CEILING(MAX(B2,F2),0.5)"],
+["Đánh dấu đơn tính theo thể tích","Ở H2, để nhìn nhanh đơn nào bị tính theo cân quy đổi.","=IF(F2>B2,\"Theo thể tích\",\"Theo thực tế\")"]],
+tb:[["B (kg)","C","D","E","J1","F (quy đổi)","G (tính cước)"],["1.2","40","30","25","[hệ số]","=C2*D2*E2/J1","=MAX(B2,F2)"]],
+ex:["Nhập 3 đơn: 1 đơn nhẹ cồng kềnh, 1 đơn nặng nhỏ gọn, 1 đơn gần bằng nhau.","Kiểm tra bằng máy tính tay 1 đơn xem công thức có khớp.","Đổi ô J1 và quan sát cả cột tự cập nhật."]},
+{t:"Tìm đơn lệch cân",s:"Tự động báo và bôi màu đơn lệch",g:"Chỉ nhìn 1 cột là biết đơn nào lệch và lệch bao nhiêu.",m:["35 phút","IF, ABS, Conditional Formatting"],
+why:"Thay vì dò từng dòng, để Excel so cân khách khai với cân kho đo và tô đỏ đơn vượt ngưỡng.",
+steps:[
+["Dựng bảng","Cột A mã, B cân khách khai, C cân kho đo. Ô J1 là ngưỡng chênh lệch cho phép [ ]."],
+["Tính chênh lệch","Ở D2, kéo xuống. Kết quả dương nghĩa là kho đo nặng hơn khách khai.","=ROUND(C2-B2,2)"],
+["Gắn nhãn lệch cân","Ở E2. ABS lấy giá trị tuyệt đối để lệch lên hay xuống đều được tính.","=IF(ABS(D2)>$J$1,\"Lệch cân\",\"OK\")"],
+["Kết hợp nhiều điều kiện","Chỉ báo khi lệch quá ngưỡng và cân kho lớn hơn mức tối thiểu ở J2.","=IF(AND(ABS(D2)>$J$1,C2>=$J$2),\"Lệch cân\",\"OK\")"],
+["Tô màu tự động","Bôi đen A2:E1000, Home, Conditional Formatting, New Rule, Use a formula, gõ công thức bên dưới, chọn màu đỏ nhạt.","=$E2=\"Lệch cân\""]],
+tb:[["A","B (khách khai)","C (kho đo)","D (chênh)","E (kết quả)"],["880001","1.0","1.6","0.6","Lệch cân"],["880002","2.0","2.0","0","OK"]],
+ex:["Nhập 5 đơn, trong đó 2 đơn lệch trên ngưỡng.","Đổi ngưỡng J1 và xem số đơn lệch thay đổi.","Dùng Filter cột E chỉ giữ đơn Lệch cân."]},
+{t:"Đối chiếu mã vận đơn",s:"So 2 file, tìm đơn thiếu và trùng",g:"Biết ngay đơn nào có ở file này mà thiếu ở file kia, không dò bằng mắt.",m:["45 phút","VLOOKUP, XLOOKUP, COUNTIF, IFERROR"],
+why:"Đây là kỹ năng giá trị nhất của cả tuần. Nếu bị #N/A, quay lại Ngày 1 (khoảng trắng, định dạng Text).",
+steps:[
+["Chuẩn bị 2 sheet","Sheet Kho: cột A mã, B cân kho đo. Sheet Khach: cột A mã, B cân khách khai. Cả 2 cột mã đều đã làm sạch."],
+["Kéo cân khách sang sheet Kho","Ở C2 của sheet Kho. FALSE nghĩa là tìm khớp chính xác. IFERROR hiện chữ thay cho lỗi.","=IFERROR(VLOOKUP(A2,Khach!A:B,2,FALSE),\"Không có\")"],
+["Cách mới hơn nếu máy có XLOOKUP","Ngắn hơn và không cần đếm số cột.","=XLOOKUP(A2,Khach!A:A,Khach!B:B,\"Không có\")"],
+["Tìm mã trùng","Ở D2, ra TRUE nghĩa là mã đó xuất hiện nhiều hơn 1 lần.","=COUNTIF(A:A,A2)>1"],
+["Lọc đơn thiếu","Bật Filter, lọc cột C = Không có để ra danh sách đơn chỉ có ở 1 bên."]],
+tb:[["Mã (Kho)","Cân kho","Cân khách (kéo sang)"],["880001","1.6","1.0"],["880003","0.8","Không có"]],
+ex:["Tạo 2 sheet nhỏ, mỗi sheet 10 mã, cố ý bỏ sót 2 mã.","Dùng VLOOKUP tìm 2 mã thiếu.","Thêm 1 mã trùng và dùng COUNTIF tìm ra."]},
+{t:"Lọc và thống kê khiếu nại",s:"Đếm và cộng theo điều kiện",g:"Trả lời nhanh: hôm nay bao nhiêu khiếu nại, loại nào nhiều, tổng cước chênh bao nhiêu.",m:["40 phút","COUNTIFS, SUMIFS, Filter"],
+why:"Hai hàm này thay cho việc lọc rồi đếm tay mỗi ngày.",
+steps:[
+["Dựng bảng","Cột A mã, B ngày, C loại khiếu nại, D trạng thái xử lý, E cước chênh lệch (đồng)."],
+["Đếm theo 1 điều kiện","Số khiếu nại loại Lệch cân.","=COUNTIF(C:C,\"Lệch cân\")"],
+["Đếm theo nhiều điều kiện","Số khiếu nại Lệch cân còn đang Chờ xử lý. Thêm điều kiện nào thì thêm cặp vùng, giá trị.","=COUNTIFS(C:C,\"Lệch cân\",D:D,\"Chờ xử lý\")"],
+["Cộng cước theo điều kiện","Tổng cước chênh lệch của khiếu nại Lệch cân.","=SUMIFS(E:E,C:C,\"Lệch cân\")"],
+["Theo ngày","Số khiếu nại của ngày nhập ở ô H1.","=COUNTIFS(B:B,$H$1)"],
+["Lọc để xem chi tiết","Bật Filter, tick nhiều giá trị trong cùng cột, hoặc lọc ở 2 cột liên tiếp."]],
+tb:[["Mã","Ngày","Loại","Trạng thái","Cước chênh"],["880001","01/06","Lệch cân","Chờ xử lý","12000"],["880002","01/06","Cước phát sinh","Đã xử lý","8000"]],
+ex:["Nhập 10 dòng khiếu nại giả.","Đếm số đơn Chờ xử lý theo từng loại.","Tính tổng cước chênh của đơn Đã xử lý."]},
+{t:"Báo cáo cuối ngày",s:"Pivot Table trong vài cú click",g:"Làm báo cáo tổng hợp xong trong 2 phút, không cần viết công thức.",m:["40 phút","Pivot Table"],
+why:"Pivot Table tự gom và đếm theo nhóm, rất hợp báo cáo ca, báo cáo ngày.",
+steps:[
+["Chuẩn bị","Bảng phải có tiêu đề mỗi cột, không có dòng hay cột trống ở giữa."],
+["Tạo Pivot","Bấm 1 ô trong bảng, tab Insert, PivotTable, OK."],
+["Kéo thả trường","Kéo Loại khiếu nại vào Rows, Mã vận đơn vào Values (chọn Count), Trạng thái vào Columns."],
+["Thêm tổng cước","Kéo Cước chênh lệch vào Values, đổi sang Sum nếu Excel chọn Count."],
+["Lọc theo ngày","Kéo Ngày vào Filters, chọn ngày cần báo cáo."],
+["Cập nhật khi có dữ liệu mới","Chuột phải vào Pivot, chọn Refresh."]],
+tb:[["Loại","Chờ xử lý","Đã xử lý","Tổng"],["Lệch cân","5","12","17"],["Cước phát sinh","2","6","8"]],
+ex:["Tạo Pivot từ bảng Ngày 5.","Xuất báo cáo: số đơn theo loại và tổng cước.","Thêm 3 dòng mới vào bảng gốc rồi Refresh."]},
+{t:"Ráp thành file mẫu dùng hằng ngày",s:"Dán dữ liệu mới, mọi thứ tự chạy",g:"Một file duy nhất, mỗi ngày chỉ cần dán dữ liệu rồi đọc báo cáo.",m:["45 phút","Table, Data Validation, ghép các bài"],
+why:"Công sức cả tuần gom về một chỗ để dùng lâu dài.",
+steps:[
+["Đổi vùng dữ liệu thành Table","Bấm 1 ô trong bảng, Ctrl+T, tick My table has headers. Công thức sẽ tự mở rộng khi có dòng mới."],
+["Sheet Cài đặt","Tạo sheet riêng chứa hệ số chia, ngưỡng lệch, bước làm tròn. Các công thức tham chiếu về đây."],
+["Ghép các cột công thức","Cân quy đổi, cân tính cước, chênh lệch, nhãn Lệch cân, kéo cân khách bằng VLOOKUP, tất cả nằm cạnh cột dữ liệu."],
+["Dropdown chọn trạng thái","Bôi đen cột Trạng thái, Data, Data Validation, Allow: List, Source: Chờ xử lý,Đã xử lý,Từ chối."],
+["Sheet Báo cáo","Đặt Pivot Table từ bảng chính. Mỗi sáng dán dữ liệu mới, bấm Data, Refresh All."],
+["Lưu file mẫu","File, Save As, đặt tên có chữ MAU. Mỗi ngày Save As bản mới, không sửa file mẫu."]],
+tb:[["Sheet","Việc của sheet"],["DuLieu","Dán dữ liệu + cột công thức"],["CaiDat","Hệ số, ngưỡng, bước làm tròn"],["BaoCao","Pivot Table"]],
+ex:["Dán dữ liệu thật 1 ngày (ẩn thông tin khách nếu cần) và kiểm tra các cột tự tính.","Đổi hệ số ở CaiDat, xem mọi thứ cập nhật.","Gửi mình file để mình kiểm tra và gợi ý chỉnh."]}
+];
+var P=[
+{k:"Bôi vàng là ô cần bạn gõ. Ở B2 gõ =TRIM(A2), ở B3 gõ =TRIM(A3). Ở C2 gõ =LEN(B2) để kiểm tra mã đủ 12 ký tự.",c:{A1:"Mã vận đơn",B1:"Mã sạch",C1:"Độ dài",A2:"  880000000002  ",A3:"880000000003 "},x:{B2:"880000000002",B3:"880000000003",C2:12}},
+{k:"Số 6000 ở J1 chỉ là số ví dụ để tập, hệ số thật bạn lấy theo quy định J&T. Gõ F2 =C2*D2*E2/$J$1 và G2 =MAX(B2,F2), rồi làm tương tự G3 cho đơn thứ hai.",c:{A1:"Mã",B1:"Cân thực tế",C1:"Dài",D1:"Rộng",E1:"Cao",F1:"Cân quy đổi",G1:"Cân tính cước",I1:"Hệ số (ví dụ)",J1:6000,A2:"VD001",B2:1.2,C2:40,D2:30,E2:25,A3:"VD002",B3:6,C3:20,D3:20,E3:10},x:{F2:5,G2:5,G3:6}},
+{k:"Ngưỡng 0.3 ở J1 chỉ là ví dụ. Gõ D2 =ROUND(C2-B2,2) rồi E2 =IF(ABS(D2)>$J$1,\"Lệch cân\",\"OK\"). Làm tiếp cho dòng 3 và 4.",c:{A1:"Mã",B1:"Khách khai",C1:"Kho đo",D1:"Chênh",E1:"Kết quả",I1:"Ngưỡng (ví dụ)",J1:0.3,A2:"VD001",B2:1,C2:1.6,A3:"VD002",B3:2,C3:2,A4:"VD003",B4:0.5,C4:0.7},x:{D2:0.6,E2:"Lệch cân",E3:"OK",E4:"OK"}},
+{k:"Kiểm tra mã kho có nằm trong danh sách khách không. Ở C2 gõ =IF(COUNTIF($E$2:$E$5,A2)>0,\"Có\",\"Không có\"), rồi làm tương tự C3.",c:{A1:"Mã (Kho)",B1:"Cân kho",C1:"Có bên khách?",E1:"Mã (Khách)",F1:"Cân khách",A2:880001,B2:1.6,A3:880003,B3:0.8,E2:880001,F2:1,E3:880002,F3:2.5},x:{C2:"Có",C3:"Không có"}},
+{k:"G2 đếm đơn Lệch cân: =COUNTIF(C2:C7,\"Lệch cân\"). G3 đếm Lệch cân còn Chờ xử lý: =COUNTIFS(C2:C7,\"Lệch cân\",D2:D7,\"Chờ xử lý\"). G4 tổng cước Lệch cân: =SUMIFS(E2:E7,C2:C7,\"Lệch cân\").",c:T5(),x:{G2:3,G3:2,G4:24000}},
+{k:"Làm như bảng Pivot bằng tay: ở H2 gõ =COUNTIF($C$2:$C$7,G2) rồi làm tiếp H3, H4. Pivot Table thật sẽ làm việc này chỉ bằng kéo thả.",c:T5(1),x:{H2:3,H3:2,H4:1}},
+{k:"Ghép lại: F2 =C2*D2*E2/$J$1 và G2 =CEILING(MAX(B2,F2),$J$2). Các số 6000 và 0.5 chỉ là ví dụ, thay theo quy định thật.",c:{A1:"Mã",B1:"Cân thực tế",C1:"Dài",D1:"Rộng",E1:"Cao",F1:"Cân quy đổi",G1:"Cân tính cước",I1:"Hệ số (ví dụ)",J1:6000,I2:"Bước làm tròn",J2:0.5,A2:"VD001",B2:4.3,C2:40,D2:30,E2:20},x:{F2:4,G2:4.5}}];
+function T5(p){var o={A1:"Mã",B1:"Ngày",C1:"Loại",D1:"Trạng thái",E1:"Cước chênh"},L=["Lệch cân","Cước phát sinh","Lệch cân","Lệch cân","Cước phát sinh","Khác"],S=["Chờ xử lý","Đã xử lý","Đã xử lý","Chờ xử lý","Chờ xử lý","Đã xử lý"],E=[12000,8000,5000,7000,3000,1000];
+for(var i=0;i<6;i++){var r=i+2;o["A"+r]="VD00"+(i+1);o["B"+r]="01/06";o["C"+r]=L[i];o["D"+r]=S[i];o["E"+r]=E[i]}
+if(p){o.G1="Loại";o.H1="Số đơn";o.G2="Lệch cân";o.G3="Cước phát sinh";o.G4="Khác"}else{o.F2="Số Lệch cân";o.F3="Lệch cân + Chờ xử lý";o.F4="Tổng cước Lệch cân"}return o}
+var P4=P[4],P5=P[5];P[4].c=T5();P[5].c=T5(1);
+var COLS="ABCDEFGHIJ".split(""),ROWS=10,cur=0,KEY="giang_excel_v2",st={},sh={},cache={},busy={};
+try{st=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function fl(a){var o=[];(function f(x){Array.prototype.slice.call(x).forEach(function(y){Array.isArray(y)?f(y):o.push(y)})})(a);return o}
+function nums(a){return fl(a).filter(function(x){return typeof x==="number"})}
+function mt(x,c){if(typeof c==="string"){var m=c.match(/^(>=|<=|<>|>|<|=)?(.*)$/),op=m[1]||"=",t=m[2],n=t!==""&&!isNaN(t),a=n?+t:t,v=n?+x:String(x);switch(op){case">":return v>a;case"<":return v<a;case">=":return v>=a;case"<=":return v<=a;case"<>":return v!=a;default:return String(v)==String(a)}}return x==c}
+var F={V:function(i){return ev(i)},R:function(a,b){var o=[],c1=a.charCodeAt(0),c2=b.charCodeAt(0),r1=+a.slice(1),r2=+b.slice(1);for(var r=r1;r<=r2;r++)for(var c=c1;c<=c2;c++)o.push(ev(String.fromCharCode(c)+r));o.w=c2-c1+1;return o},
+SUM:function(){return nums(arguments).reduce(function(a,b){return a+b},0)},MAX:function(){return Math.max.apply(null,nums(arguments))},MIN:function(){return Math.min.apply(null,nums(arguments))},
+IF:function(c,a,b){return c?a:(b===undefined?false:b)},ABS:Math.abs,ROUND:function(x,n){var p=Math.pow(10,n||0);return Math.round(x*p)/p},AND:function(){return fl(arguments).every(Boolean)},OR:function(){return fl(arguments).some(Boolean)},
+TRIM:function(s){return String(s).trim().replace(/\s+/g," ")},LEN:function(s){return String(s).length},CEILING:function(x,s){return Math.ceil(x/s-1e-9)*s},
+COUNTIF:function(r,c){return r.filter(function(x){return mt(x,c)}).length},
+COUNTIFS:function(){var a=arguments,n=0;for(var i=0;i<a[0].length;i++){var ok=true;for(var j=0;j<a.length;j+=2)if(!mt(a[j][i],a[j+1]))ok=false;if(ok)n++}return n},
+SUMIFS:function(s){var a=arguments,n=0;for(var i=0;i<s.length;i++){var ok=true;for(var j=1;j<a.length;j+=2)if(!mt(a[j][i],a[j+1]))ok=false;if(ok&&typeof s[i]==="number")n+=s[i]}return n}};
+F.TRUE=true;F.FALSE=false;F.UPPER=function(s){return String(s).toUpperCase()};F.LOWER=function(s){return String(s).toLowerCase()};F.LEFT=function(s,n){return String(s).slice(0,n===undefined?1:n)};F.RIGHT=function(s,n){s=String(s);return s.slice(Math.max(0,s.length-(n===undefined?1:n)))};F.MID=function(s,a,n){return String(s).substr(a-1,n)};
+F.AVERAGE=function(){var a=nums(arguments);return a.reduce(function(x,y){return x+y},0)/a.length};F.COUNT=function(){return nums(arguments).length};F.COUNTA=function(){return fl(arguments).filter(function(x){return x!==0&&x!==""}).length};
+F.ROUNDUP=function(x,n){var p=Math.pow(10,n||0);return Math.sign(x)*Math.ceil(Math.abs(x)*p-1e-9)/p};F.ROUNDDOWN=function(x,n){var p=Math.pow(10,n||0);return Math.sign(x)*Math.floor(Math.abs(x)*p+1e-9)/p};F.INT=Math.floor;F.MOD=function(a,b){return a-b*Math.floor(a/b)};F.FLOOR=function(x,s){return Math.floor(x/s+1e-9)*s};
+F.SUMIF=function(r,c,s){var n=0;s=s||r;for(var i=0;i<r.length;i++)if(mt(r[i],c)&&typeof s[i]==="number")n+=s[i];return n};
+F.IFERROR=function(v,a){return(typeof v==="string"&&v[0]==="#")||(typeof v==="number"&&!isFinite(v))?a:v};
+F.VLOOKUP=function(k,r,i){var w=r.w||1;for(var j=0;j*w<r.length;j++)if(String(r[j*w])===String(k))return r[j*w+i-1];return"#N/A"};
+F.XLOOKUP=function(k,l,r,a){for(var j=0;j<l.length;j++)if(String(l[j])===String(k))return r[j];return a===undefined?"#N/A":a};
+F.MATCH=function(k,r){for(var j=0;j<r.length;j++)if(String(r[j])===String(k))return j+1;return"#N/A"};F.INDEX=function(r,i){return typeof i==="number"&&r[i-1]!==undefined?r[i-1]:"#REF!"};
+F.SUMPRODUCT=function(a,b){var s=0;for(var i=0;i<a.length;i++)s+=(+a[i]||0)*(+b[i]||0);return s};
+function ev(id){if(cache[id]!==undefined)return cache[id];var raw=sh[id],v;
+if(raw===undefined||raw==="")v=0;else{raw=String(raw);if(raw[0]==="="){if(busy[id])v="#REF!";else{busy[id]=1;v=calc(raw.slice(1));delete busy[id]}}else v=/^-?\d+(\.\d+)?$/.test(raw)?+raw:raw}
+cache[id]=v;return v}
+function calc(f){try{var p=f.replace(/;/g,",").split('"'),out="";
+for(var i=0;i<p.length;i++){if(i%2){out+=JSON.stringify(p[i]);continue}
+var s=p[i].toUpperCase();if(!/^[A-Z0-9\s().,+\-*\/<>=!&^$:]*$/.test(s))return"#NAME?";
+s=s.replace(/(?<![A-Z])\$?([A-J])\$?(\d+)(?::\$?([A-J])\$?(\d+))?|(?<![A-Z])\$?([A-J]):\$?([A-J])(?!\d)/g,function(m,a,b,c,d,e,f){return e?'R("'+e+'1","'+f+ROWS+'")':c?'R("'+a+b+'","'+c+d+'")':'V("'+a+b+'")'}).replace(/<>/g,"!=").replace(/(^|[^<>!=])=(?!=)/g,"$1==").replace(/&/g,"+").replace(/\^/g,"**");out+=s}
+var n=Object.keys(F),r=Function.apply(null,n.concat("return ("+out+")")).apply(null,n.map(function(k){return F[k]}));
+if(typeof r==="number"&&!isFinite(r))return"#DIV/0!";return r}catch(e){return"#VALUE!"}}
+function show(v){return typeof v==="boolean"?(v?"TRUE":"FALSE"):typeof v==="number"?String(Math.round(v*1e6)/1e6):v}
+function refresh(){cache={};busy={};document.querySelectorAll("#grid input").forEach(function(i){if(document.activeElement!==i)i.value=show(ev(i.dataset.id))})}
+function cnt(i){var n=D[i].steps.length,c=0;for(var k=0;k<n;k++)if(st[i+"_"+k])c++;return[c+(st["p"+i]?1:0),n+1]}
+function sideOld(){var h="",m="",tc=0,tn=0;D.forEach(function(d,i){var r=cnt(i);tc+=r[0];tn+=r[1];var dn=r[0]===r[1];
+h+='<button class="day'+(dn?" done":"")+'" role="tab" aria-selected="'+(i===cur)+'" data-i="'+i+'"><span class="dn">'+(dn?"✓":i+1)+'</span><span>'+esc(d.t)+'<small>'+r[0]+'/'+r[1]+' việc</small></span></button>';
+m+='<button aria-selected="'+(i===cur)+'" data-i="'+i+'">Ngày '+(i+1)+'</button>'});
+document.getElementById("days").innerHTML=h;document.getElementById("mob").innerHTML=m;
+var p=Math.round(tc/tn*100);document.getElementById("pt").textContent=p+"%";document.getElementById("pf").style.width=p+"%"}
+function renderDay(){var d=D[cur],p=P[cur];AP=p;sh={};for(var k in p.c)sh[k]=p.c[k];
+var h='<section class="hero"><p style="margin:0;opacity:.7">Ngày '+(cur+1)+' / 7</p><h1 class="big">'+esc(d.t)+'</h1><p>'+esc(d.g)+'</p><div class="chips">';
+d.m.forEach(function(x){h+='<span class="chip">'+esc(x)+'</span>'});
+h+='</div></section><div class="body"><div class="why"><b>Vì sao học bài này:</b> '+esc(d.why)+'</div><div class="cols"><div><h2>1. Làm theo từng bước</h2>';
+d.steps.forEach(function(s,k){var on=!!st[cur+"_"+k];h+='<div class="step'+(on?" on":"")+'"><input type="checkbox" id="c'+k+'" data-k="'+k+'"'+(on?" checked":"")+'><div><label for="c'+k+'" class="st">'+esc(s[0])+'</label><p class="sd">'+esc(s[1])+'</p>';
+if(s[2])h+='<div class="code"><code>'+esc(s[2])+'</code><button class="cp" data-f="'+encodeURIComponent(s[2])+'">Copy</button></div>';h+='</div></div>'});
+h+='</div><div class="colr"><h2>2. Thực hành trực tiếp</h2><div class="lab"><div class="lab-h">Bảng tính mini, gõ công thức như Excel thật</div><div class="lab-b"><p>'+esc(p.k)+'</p><div class="sheet"><table id="grid"><tr><th class="r"></th>';
+COLS.forEach(function(c){h+='<th>'+c+'</th>'});h+='</tr>';
+for(var r=1;r<=ROWS;r++){h+='<tr><th class="r">'+r+'</th>';COLS.forEach(function(c){var id=c+r;h+='<td id="t'+id+'"'+(p.x[id]!==undefined?' class="tgt"':'')+'><input data-id="'+id+'" value="" autocomplete="off" spellcheck="false"></td>'});h+='</tr>'}
+h+='</table></div><div class="bt"><button class="btn" id="chk">Kiểm tra kết quả</button><button class="btn alt" id="rst">Làm lại</button><button class="btn alt" id="hnt">Gợi ý</button><button class="btn alt" id="ans">Xem đáp án</button><span id="res"></span></div><div id="hbox" class="why" style="display:none"></div></div></div>';
+h+='</div></div><h2>3. Bài tập nhỏ</h2><ol class="ex">';d.ex.forEach(function(e){h+='<li>'+esc(e)+'</li>'});
+h+='</ol><div class="nav"><button class="btn alt" id="pv"'+(cur===0?" disabled":"")+'>Ngày trước</button><button class="btn" id="nx"'+(cur===6?" disabled":"")+'>Ngày tiếp theo</button></div><p class="note">Hệ số quy đổi, ngưỡng lệch cân và quy tắc làm tròn: luôn đối chiếu quy định nội bộ mới nhất của J&amp;T. Các số trong bảng thực hành chỉ là số ví dụ. Nếu Excel trên máy bạn báo lỗi khi gõ công thức, thử đổi dấu phẩy (,) thành chấm phẩy (;), xem mục Sửa lỗi thường gặp.</p></div>';
+document.getElementById("main").innerHTML=h;refresh();side()}
+document.addEventListener("click",function(e){var t=e.target,b=t.closest("[data-i]");
+if(b){cur=+b.dataset.i;render();window.scrollTo(0,0);return}
+if(t.id==="pv"&&cur>0){cur--;render();window.scrollTo(0,0)}if(t.id==="nx"&&cur<6){cur++;render();window.scrollTo(0,0)}
+if(t.id==="rst")render();
+if(t.classList.contains("cp")){var f=decodeURIComponent(t.dataset.f);try{navigator.clipboard.writeText(f).then(function(){t.textContent="Đã copy"})}catch(x){t.textContent="Ctrl+C"}setTimeout(function(){t.textContent="Copy"},1500)}
+if(t.id==="chk"){var x=AP.x,ok=0,n=0;cache={};busy={};for(var id in x){n++;var g=ev(id),w=x[id],y=typeof w==="number"?(typeof g==="number"&&Math.abs(g-w)<1e-6):String(g).trim()===w,c=document.getElementById("t"+id);c.className=y?"ok":"bad";if(y)ok++}
+var r=document.getElementById("res");r.className=ok===n?"g":"b";r.textContent=ok===n?"Chính xác! Hoàn thành "+ok+"/"+n+" ô":"Đúng "+ok+"/"+n+" ô. Ô đỏ cần xem lại (kiểm tra dấu $, dấu ngoặc và dấu nháy kép)";
+if(ok===n){if(AP.id)st["b"+AP.id]=1;else st["p"+cur]=1;save();side();if(AP.id)bankChips()}}
+if(t.dataset&&t.dataset.k!==undefined&&t.type==="checkbox"){st[cur+"_"+t.dataset.k]=t.checked;save();t.closest(".step").classList.toggle("on",t.checked);side()}});
+document.addEventListener("focusin",function(e){var i=e.target;if(i.dataset&&i.dataset.id){var v=sh[i.dataset.id];i.value=v===undefined?"":v}});
+document.addEventListener("input",function(e){var i=e.target;if(i.dataset&&i.dataset.id){sh[i.dataset.id]=i.value;if(i.value==="")delete sh[i.dataset.id]}});
+document.addEventListener("focusout",function(e){if(e.target.dataset&&e.target.dataset.id)refresh()});
+var AP,bsel=1,blv="Tất cả",llv="Tất cả";
+function w(o,x){for(var k in x)o[k]=x[k];return o}
+var EF={A1:"Mã kho",E1:"Mã",F1:"Cân khách khai",E2:880001,F2:1.5,E3:880002,F3:2,E4:880003,F4:0.8};
+var B=[
+{id:1,lv:"Cơ bản",tt:"Viết hoa mã",k:"Ở B2 gõ =UPPER(A2), rồi B3.",c:{A1:"Mã",B1:"Viết hoa",A2:"vd001",A3:"vd002"},x:{B2:"VD001",B3:"VD002"}},
+{id:2,lv:"Cơ bản",tt:"Cắt chữ LEFT/RIGHT/MID",k:"Mã HCM-880001. B2 lấy 3 ký tự đầu (LEFT), C2 lấy 6 ký tự cuối (RIGHT), D2 lấy 3 ký tự từ vị trí 5 (MID).",c:{A1:"Mã",B1:"Tỉnh",C1:"Số",D1:"Giữa",A2:"HCM-880001"},x:{B2:"HCM",C2:"880001",D2:"880"}},
+{id:3,lv:"Cơ bản",tt:"Thống kê cân cả ca",k:"Cột B là cân 5 đơn. E2 tính tổng (SUM), E3 trung bình (AVERAGE), E4 lớn nhất (MAX), E5 nhỏ nhất (MIN).",c:{A1:"Mã",B1:"Cân",D2:"Tổng",D3:"Trung bình",D4:"Lớn nhất",D5:"Nhỏ nhất",A2:"VD1",B2:1,A3:"VD2",B3:2,A4:"VD3",B4:0.5,A5:"VD4",B5:3.5,A6:"VD5",B6:1},x:{E2:8,E3:1.6,E4:3.5,E5:0.5}},
+{id:4,lv:"Cơ bản",tt:"Làm tròn",k:"B2:B3 làm tròn LÊN về số nguyên (ROUNDUP(A2,0)). C2 làm tròn XUỐNG 1 số lẻ (ROUNDDOWN(A2,1)). C3 lấy phần nguyên (INT(A3)).",c:{A1:"Cân",B1:"Tròn lên",C1:"Tròn xuống/INT",A2:2.34,A3:2.01},x:{B2:3,B3:3,C2:2.3,C3:2}},
+{id:5,lv:"Cơ bản",tt:"IF lồng nhau",k:"Phân loại đơn: từ 10 trở lên là Nặng, từ 1 đến dưới 10 là Vừa, còn lại là Nhẹ. C2 gõ =IF(B2>=10,\"Nặng\",IF(B2>=1,\"Vừa\",\"Nhẹ\")), làm tiếp C3, C4.",c:{A1:"Mã",B1:"Cân",C1:"Loại",A2:"VD1",B2:0.4,A3:"VD2",B3:2.5,A4:"VD3",B4:12},x:{C2:"Nhẹ",C3:"Vừa",C4:"Nặng"}},
+{id:6,lv:"Trung cấp",tt:"SUMIF, COUNTIF, COUNTA",k:"G2 tổng cước loại Cước phát sinh (SUMIF). G3 đếm đơn có cước lớn hơn 5000 (COUNTIF với \">5000\"). G4 đếm số đơn (COUNTA(A2:A7)).",c:w(T5(),{F2:"Tổng cước phát sinh",F3:"Số đơn cước > 5000",F4:"Tổng số đơn"}),x:{G2:11000,G3:3,G4:6}},
+{id:7,lv:"Trung cấp",tt:"Tra cứu VLOOKUP và XLOOKUP",k:"Tra cân khách khai theo mã. B2:B3 dùng =IFERROR(VLOOKUP(A2,$E$2:$F$4,2,FALSE),\"Không có\"). C2:C3 dùng =XLOOKUP(A2,$E$2:$E$4,$F$2:$F$4,\"Không có\").",c:w(w({},EF),{B1:"VLOOKUP",C1:"XLOOKUP",A2:880001,A3:880009}),x:{B2:1.5,B3:"Không có",C2:1.5,C3:"Không có"}},
+{id:8,lv:"Trung cấp",tt:"Phát hiện mã trùng",k:"B2 gõ =IF(COUNTIF($A$2:$A$7,A2)>1,\"Trùng\",\"Duy nhất\"), làm tiếp B3, B5.",c:{A1:"Mã",B1:"Kết quả",A2:881,A3:882,A4:881,A5:883,A6:884,A7:882},x:{B2:"Trùng",B3:"Trùng",B5:"Duy nhất"}},
+{id:9,lv:"Trung cấp",tt:"Tính cước phụ thu",k:"Đơn giá 5000 đồng/kg ở J1 chỉ là ví dụ. D = phần cân kho đo vượt khách khai, không âm: =MAX(0,C2-B2). E = D*$J$1.",c:{A1:"Mã",B1:"Khách khai",C1:"Kho đo",D1:"Cân vượt",E1:"Phụ thu",I1:"Đơn giá (ví dụ)",J1:5000,A2:"VD1",B2:1,C2:1.6,A3:"VD2",B3:2,C3:1.5},x:{D2:0.6,E2:3000,D3:0,E3:0}},
+{id:10,lv:"Trung cấp",tt:"AND để ưu tiên xử lý",k:"Ưu tiên khi lệch lớn hơn 0.5 VÀ trạng thái là Khiếu nại. D2 gõ =IF(AND(B2>0.5,C2=\"Khiếu nại\"),\"Ưu tiên\",\"Thường\"), làm tiếp D3, D4.",c:{A1:"Mã",B1:"Lệch (kg)",C1:"Trạng thái",D1:"Mức",A2:"VD1",B2:0.8,C2:"Khiếu nại",A3:"VD2",B3:0.8,C3:"Bình thường",A4:"VD3",B4:0.2,C4:"Khiếu nại"},x:{D2:"Ưu tiên",D3:"Thường",D4:"Thường"}},
+{id:11,lv:"Master",tt:"INDEX + MATCH",k:"Tra cân khách khai bằng cặp INDEX/MATCH: =INDEX($F$2:$F$4,MATCH(A2,$E$2:$E$4,0)). Làm B2 và B3.",c:w(w({},EF),{B1:"Cân khách",A2:880003,A3:880002}),x:{B2:0.8,B3:2}},
+{id:12,lv:"Master",tt:"SUMPRODUCT tính tổng cước",k:"E2 tính tổng cước = tổng (cân x đơn giá) của 4 đơn: =SUMPRODUCT(B2:B5,C2:C5). Đơn giá là số ví dụ.",c:{A1:"Mã",B1:"Cân",C1:"Đơn giá (ví dụ)",D2:"Tổng cước",A2:"VD1",B2:1,C2:5000,A3:"VD2",B3:2,C3:5000,A4:"VD3",B4:0.5,C4:6000,A5:"VD4",B5:3,C5:4000},x:{E2:30000}},
+{id:13,lv:"Master",tt:"Cân tính cước hàng loạt",k:"J1, J2 là hệ số và bước làm tròn ví dụ. F = C*D*E/$J$1. G = CEILING(MAX(B2,F2),$J$2). Làm 3 dòng.",c:{A1:"Mã",B1:"Cân thực tế",C1:"Dài",D1:"Rộng",E1:"Cao",F1:"Quy đổi",G1:"Tính cước",I1:"Hệ số (ví dụ)",J1:6000,I2:"Bước tròn (ví dụ)",J2:0.5,A2:"VD1",B2:0.8,C2:30,D2:20,E2:15,A3:"VD2",B3:3,C3:50,D3:40,E3:30,A4:"VD3",B4:1.1,C4:25,D4:25,E4:20},x:{G2:1.5,G3:10,G4:2.5}},
+{id:14,lv:"Master",tt:"Tỷ lệ khiếu nại",k:"G2 = tỷ lệ đơn Lệch cân trên tổng số đơn: =COUNTIF(C2:C7,\"Lệch cân\")/COUNTA(A2:A7). G3 = ROUND(G2*100,1) để ra phần trăm.",c:w(T5(),{F2:"Tỷ lệ Lệch cân",F3:"Tỷ lệ (%)",F4:""}),x:{G2:0.5,G3:50}},
+{id:15,lv:"Master",tt:"Tạo tin nhắn tự động",k:"D2 ghép tin nhắn bằng &: =\"Chào \"&A2&\", đơn \"&B2&\" lệch \"&C2&\"kg\".",c:{A1:"Tên khách",B1:"Mã",C1:"Lệch (kg)",D1:"Tin nhắn",A2:"Anh Nam",B2:880001,C2:0.6},x:{D2:"Chào Anh Nam, đơn 880001 lệch 0.6kg"}},
+{id:16,lv:"Master",tt:"Tìm đơn lệch nhiều nhất",k:"E2 lấy độ lệch lớn nhất (MAX). E3 lấy mã đơn tương ứng: =INDEX(A2:A6,MATCH(E2,B2:B6,0)).",c:{A1:"Mã",B1:"Lệch (kg)",D2:"Lệch lớn nhất",D3:"Mã đơn",A2:"VD1",B2:0.2,A3:"VD2",B3:0.9,A4:"VD3",B4:0.4,A5:"VD4",B5:1.3,A6:"VD5",B6:0.1},x:{E2:1.3,E3:"VD4"}}];
+var L=[
+["SUM","Thường dùng","=SUM(B2:B100)","Cộng tổng các số.","Tổng cân của cả ca.",1],
+["AVERAGE","Thường dùng","=AVERAGE(B2:B100)","Trung bình cộng.","Cân trung bình mỗi đơn.",1],
+["COUNT / COUNTA","Thường dùng","=COUNTA(A2:A100)","COUNT đếm ô là số; COUNTA đếm ô không trống.","Đếm số đơn đã nhập.",1],
+["MAX / MIN","Thường dùng","=MAX(B2,F2)","Số lớn nhất / nhỏ nhất.","Cân tính cước = lớn hơn giữa cân thực tế và cân quy đổi.",1],
+["ROUND / ROUNDUP / ROUNDDOWN","Thường dùng","=ROUNDUP(B2,0)","Làm tròn thường / lên / xuống.","Làm tròn cân theo quy định thật.",1],
+["INT / MOD","Thường dùng","=MOD(B2,0.5)","INT lấy phần nguyên; MOD lấy phần dư.","Kiểm tra cân có lẻ theo bước 0.5 không.",1],
+["ABS","Thường dùng","=ABS(C2-B2)","Giá trị tuyệt đối.","Độ lệch bất kể lên hay xuống.",1],
+["IF","Thường dùng","=IF(D2>0.5,\"Lệch\",\"OK\")","Rẽ nhánh theo điều kiện.","Gắn nhãn đơn lệch cân.",1],
+["AND / OR","Thường dùng","=IF(AND(D2>0.5,C2=\"Khiếu nại\"),\"Ưu tiên\",\"Thường\")","AND: đủ mọi điều kiện. OR: chỉ cần một.","Chọn đơn cần xử lý trước.",1],
+["TRIM","Thường dùng","=TRIM(A2)","Xóa khoảng trắng thừa.","Làm sạch mã vận đơn trước khi đối chiếu.",1],
+["UPPER / LOWER","Thường dùng","=UPPER(A2)","Viết hoa / viết thường.","Đồng nhất mã có chữ.",1],
+["LEFT / RIGHT / MID","Thường dùng","=MID(A2,5,3)","Cắt một đoạn ký tự.","Tách mã tỉnh, mã bưu cục từ mã đơn.",1],
+["LEN","Thường dùng","=LEN(A2)","Đếm ký tự.","Kiểm tra mã đủ 12 số.",1],
+["& (ghép chuỗi)","Thường dùng","=\"Đơn \"&A2&\" lệch \"&D2&\"kg\"","Nối chữ và số.","Soạn tin nhắn trả lời hàng loạt.",1],
+["COUNTIF","Thường dùng","=COUNTIF(C:C,\"Lệch cân\")","Đếm theo 1 điều kiện.","Số khiếu nại theo loại; tìm mã trùng.",1],
+["SUMIF","Thường dùng","=SUMIF(C:C,\"Lệch cân\",E:E)","Cộng theo 1 điều kiện.","Tổng cước chênh theo loại.",1],
+["COUNTIFS / SUMIFS","Trung cấp","=COUNTIFS(C:C,\"Lệch cân\",D:D,\"Chờ xử lý\")","Đếm / cộng theo nhiều điều kiện.","Số đơn Lệch cân còn chờ xử lý.",1],
+["IFERROR","Trung cấp","=IFERROR(VLOOKUP(A2,F:G,2,FALSE),\"Không có\")","Thay lỗi bằng giá trị bạn chọn.","Bảng đối chiếu không hiện #N/A.",1],
+["VLOOKUP","Trung cấp","=VLOOKUP(A2,Khach!A:B,2,FALSE)","Tra theo mã ở cột đầu, trả về cột thứ n. FALSE = khớp chính xác.","Kéo cân khách khai sang file kho.",1],
+["CEILING / FLOOR","Trung cấp","=CEILING(B2,0.5)","Làm tròn lên / xuống theo bội số.","Làm tròn cân theo bước 0.5 kg (nếu quy định có).",1],
+["TEXT","Trung cấp","=TEXT(B2,\"dd/mm/yyyy\")","Đổi số/ngày sang chữ theo định dạng.","Hiện ngày trong tin nhắn.",0],
+["TODAY / DATE","Trung cấp","=TODAY()-B2","Ngày hôm nay / tạo ngày.","Đếm số ngày khiếu nại đã tồn đọng.",0],
+["SUBSTITUTE","Trung cấp","=SUBSTITUTE(A2,\"-\",\"\")","Thay chữ này bằng chữ khác.","Bỏ dấu gạch khỏi mã.",0],
+["ISNUMBER","Trung cấp","=ISNUMBER(A2)","Kiểm tra ô có phải số không.","Phát hiện mã bị lưu nhầm kiểu.",0],
+["IFS / SWITCH","Trung cấp","=IFS(B2>=10,\"Nặng\",B2>=1,\"Vừa\",TRUE,\"Nhẹ\")","Nhiều điều kiện gọn hơn IF lồng nhau (Excel 2019+).","Phân loại đơn theo mức cân.",0],
+["AVERAGEIFS","Trung cấp","=AVERAGEIFS(E:E,C:C,\"Lệch cân\")","Trung bình theo điều kiện.","Cước chênh trung bình của đơn Lệch cân.",0],
+["RANK","Trung cấp","=RANK(B2,$B$2:$B$100)","Xếp hạng trong danh sách.","Top đơn lệch nhiều nhất.",0],
+["XLOOKUP","Master","=XLOOKUP(A2,Khach!A:A,Khach!B:B,\"Không có\")","Tra cứu thay VLOOKUP: tìm sang trái được, có sẵn giá trị khi không thấy (Excel 365/2021).","Đối chiếu 2 file nhanh và gọn.",1],
+["INDEX + MATCH","Master","=INDEX(G:G,MATCH(A2,F:F,0))","Tra cứu linh hoạt, chạy được ở mọi phiên bản Excel.","Tra khi cột kết quả nằm bên trái cột mã.",1],
+["SUMPRODUCT","Master","=SUMPRODUCT(B2:B5,C2:C5)","Nhân từng cặp rồi cộng lại.","Tổng cước = cân x đơn giá cho cả bảng.",1],
+["FILTER","Master","=FILTER(A2:E100,C2:C100=\"Lệch cân\")","Lọc bảng bằng công thức, tự cập nhật (Excel 365).","Danh sách khiếu nại Lệch cân tự hiện ra.",0],
+["UNIQUE","Master","=UNIQUE(A2:A100)","Lấy danh sách không trùng (Excel 365).","Danh sách mã duy nhất.",0],
+["SORT / SORTBY","Master","=SORT(B2:B100,-1)","Sắp xếp bằng công thức (Excel 365).","Xếp đơn lệch từ nhiều đến ít.",0],
+["LET","Master","=LET(x,C2-B2,IF(ABS(x)>0.3,x,0))","Đặt tên cho phép tính, công thức ngắn và dễ đọc (Excel 365).","Công thức dài lặp lại cùng phép tính.",0],
+["TEXTJOIN","Master","=TEXTJOIN(\", \",TRUE,A2:A10)","Nối nhiều ô, có dấu phân cách.","Gộp danh sách mã vào 1 tin nhắn.",0],
+["Pivot Table","Master","Insert > PivotTable","Báo cáo tổng hợp bằng kéo thả, không cần công thức.","Báo cáo cuối ngày theo loại khiếu nại.",0],
+["Power Query","Master","Data > Get Data","Tự động làm sạch, gộp nhiều file, bấm Refresh là xong.","Gộp file cân mỗi ngày không cần copy tay.",0],
+["Conditional Formatting","Master","Home > Conditional Formatting","Tự tô màu theo điều kiện hoặc công thức.","Tô đỏ đơn Lệch cân.",0],
+["Data Validation","Master","Data > Data Validation","Giới hạn nhập liệu, tạo dropdown.","Dropdown trạng thái xử lý.",0],
+["Table (Ctrl+T)","Master","Ctrl + T","Biến vùng dữ liệu thành bảng tự mở rộng.","Dán thêm dòng, công thức tự theo.",0]];
+function side(){var h="",m="",tc=0,tn=0;D.forEach(function(d,i){var r=cnt(i);tc+=r[0];tn+=r[1];var dn=r[0]===r[1];
+h+='<button class="day'+(dn?" done":"")+'" role="tab" aria-selected="'+(i===cur)+'" data-i="'+i+'"><span class="dn">'+(dn?"✓":i+1)+'</span><span>'+esc(d.t)+'<small>'+r[0]+'/'+r[1]+' việc</small></span></button>';
+m+='<button aria-selected="'+(i===cur)+'" data-i="'+i+'">Ngày '+(i+1)+'</button>'});
+var bd=B.filter(function(b){return st["b"+b.id]}).length;
+h+='<button class="nx" aria-selected="'+(cur===7)+'" data-i="7">Thư viện hàm Excel<small>'+L.length+' hàm và công cụ</small></button><button class="nx" aria-selected="'+(cur===8)+'" data-i="8">Ngân hàng bài tập<small>'+bd+'/'+B.length+' bài đã giải</small></button><button class="nx" aria-selected="'+(cur===9)+'" data-i="9">Công cụ Master<small>Pivot, Conditional Formatting, Power Query</small></button><button class="nx" aria-selected="'+(cur===10)+'" data-i="10">Sửa lỗi và phím tắt<small>9 lỗi hay gặp, 12 phím tắt</small></button>';
+m+='<button aria-selected="'+(cur===7)+'" data-i="7">Hàm</button><button aria-selected="'+(cur===8)+'" data-i="8">Bài tập</button><button aria-selected="'+(cur===9)+'" data-i="9">Công cụ</button><button aria-selected="'+(cur===10)+'" data-i="10">Sửa lỗi</button>';
+document.getElementById("days").innerHTML=h;document.getElementById("mob").innerHTML=m;
+var p=Math.round(tc/tn*100);document.getElementById("pt").textContent=p+"%";document.getElementById("pf").style.width=p+"%"}
+function labHTML(p,t){var h='<div class="lab"><div class="lab-h">'+esc(t)+'</div><div class="lab-b"><p>'+esc(p.k)+'</p><div class="sheet"><table id="grid"><tr><th class="r"></th>';
+COLS.forEach(function(c){h+='<th>'+c+'</th>'});h+='</tr>';
+for(var r=1;r<=ROWS;r++){h+='<tr><th class="r">'+r+'</th>';COLS.forEach(function(c){var id=c+r;h+='<td id="t'+id+'"'+(p.x[id]!==undefined?' class="tgt"':'')+'><input data-id="'+id+'" value="" autocomplete="off" spellcheck="false"></td>'});h+='</tr>'}
+return h+'</table></div><div class="bt"><button class="btn" id="chk">Kiểm tra kết quả</button><button class="btn alt" id="rst">Làm lại</button><button class="btn alt" id="hnt">Gợi ý</button><button class="btn alt" id="ans">Xem đáp án</button><span id="res"></span></div><div id="hbox" class="why" style="display:none"></div></div></div>'}
+function pills(arr,cu,k){return arr.map(function(a){return '<button class="pill" data-'+k+'="'+a+'" aria-pressed="'+(a===cu)+'">'+a+'</button>'}).join("")}
+function libList(){var q=(document.getElementById("q")||{value:""}).value.toLowerCase(),h="";
+L.forEach(function(f){if(llv!=="Tất cả"&&f[1]!==llv)return;if(q&&(f[0]+f[3]+f[4]).toLowerCase().indexOf(q)<0)return;
+h+='<div class="fc"><h3>'+esc(f[0])+'<span class="tag'+(f[1]==="Master"?" m":"")+'">'+f[1]+'</span>'+(f[5]?'<span class="tag r">chạy được ở bảng mini</span>':"")+'</h3><div class="code"><code>'+esc(f[2])+'</code><button class="cp" data-f="'+encodeURIComponent(f[2])+'">Copy</button></div><p>'+esc(f[3])+'</p><p><b>Áp dụng:</b> '+esc(f[4])+'</p></div>'});
+document.getElementById("lib").innerHTML=h||'<p>Không tìm thấy. Thử từ khóa khác.</p>'}
+function libPage(){document.getElementById("main").innerHTML='<section class="hero"><p style="margin:0;opacity:.7">Tra cứu nhanh</p><h1 class="big">Thư viện hàm Excel</h1><p>Từ hàm dùng hằng ngày đến hàm Master. Bấm Copy để dán vào Excel, đổi ô cho đúng file của bạn.</p></section><div class="body"><div class="tl" id="lp">'+pills(["Tất cả","Thường dùng","Trung cấp","Master"],llv,"lv")+'</div><input id="q" placeholder="Tìm hàm, ví dụ: tra cứu, đếm, làm tròn" aria-label="Tìm hàm"><div class="fg" id="lib" style="margin-top:16px"></div></div>';libList()}
+function bankChips(){var l=B.filter(function(b){return blv==="Tất cả"||b.lv===blv});document.getElementById("bc").innerHTML=l.map(function(b){return '<button class="pill'+(st["b"+b.id]?" dn2":"")+'" data-b="'+b.id+'" aria-pressed="'+(b.id===bsel)+'">'+(st["b"+b.id]?"✓ ":"")+b.id+'. '+esc(b.tt)+'</button>'}).join("")}
+function bankLab(){var b=B.filter(function(x){return x.id===bsel})[0];AP=b;sh={};for(var k in b.c)sh[k]=b.c[k];document.getElementById("blab").innerHTML=labHTML(b,"Bài "+b.id+" ("+b.lv+"): "+b.tt);refresh()}
+function bankPage(){document.getElementById("main").innerHTML='<section class="hero"><p style="margin:0;opacity:.7">Luyện tập</p><h1 class="big">Ngân hàng bài tập</h1><p>'+B.length+' bài, 3 cấp độ: làm sạch chữ, tính toán, điều kiện, đếm cộng, tra cứu, tạo tin nhắn. Số liệu trong bài chỉ là ví dụ.</p></section><div class="body"><div class="tl">'+pills(["Tất cả","Cơ bản","Trung cấp","Master"],blv,"bl")+'</div><div class="tl" id="bc"></div><div id="blab"></div></div>';bankChips();bankLab()}
+function render(){if(cur<7){renderDay();return}side();cache={};busy={};if(cur===7)libPage();else if(cur===9)toolsPage();else if(cur===10)errPage();else bankPage()}
+document.addEventListener("click",function(e){var t=e.target;
+if(t.dataset.lv){llv=t.dataset.lv;libPage()}
+if(t.dataset.bl){blv=t.dataset.bl;var f=B.filter(function(b){return blv==="Tất cả"||b.lv===blv});bsel=f[0].id;bankPage()}
+if(t.dataset.b){bsel=+t.dataset.b;bankChips();bankLab()}});
+document.addEventListener("input",function(e){if(e.target.id==="q")libList()});
+
+var tl=0,pv={r:"Loại",c:"(không)",v:"Đếm số đơn",ff:"(không)",fv:""},cf={m:"gt",col:"F",val:"",row:false,color:"red",f:""},pq={steps:[],src:0};
+var RAW=[["880001 ","HCM-01","Lệch cân","Khiếu nại",1,1.6],["880002","HCM-01","Cước phát sinh","Đã xử lý",2,2],["880003","HN-01","Lệch cân","Chờ xử lý",0.5,0.7],["880001","HCM-01","Lệch cân","Khiếu nại",1,1.6],["880004 ","HN-01","Lệch cân","Khiếu nại",3,4.2],["880005","HCM-02","Khác","Đã xử lý",1.2,1.2],["880006","HCM-02","Lệch cân","Chờ xử lý",2.5,3.4],["880007","HN-01","Cước phát sinh","Chờ xử lý",0.8,1],["880008 ","HCM-02","Lệch cân","Đã xử lý",1.5,1.9],["880009","HCM-01","Lệch cân","Khiếu nại",4,4.9],["880010","HN-01","Khác","Đã xử lý",2.2,2.2],["880011","HCM-02","Cước phát sinh","Khiếu nại",0.6,1.3]];
+var NEWR=[["880012 ","HN-01","Lệch cân","Khiếu nại",2,2.9],["880013","HCM-01","Khác","Chờ xử lý",1,1],["880003","HN-01","Lệch cân","Chờ xử lý",0.5,0.7]];
+var K6=["Mã","Loại","Trạng thái","Khách khai","Kho đo","Chênh"],DIM=["Bưu cục","Loại","Trạng thái"],VAL=["Đếm số đơn","Tổng cước chênh","Tổng chênh (kg)","Chênh trung bình (kg)"];
+function mk(r){return{"Mã":r[0],"Bưu cục":r[1],"Loại":r[2],"Trạng thái":r[3],"Khách khai":r[4],"Kho đo":r[5]}}
+function r2(x){return Math.round(x*100)/100}
+function addC(o){o["Chênh"]=r2(o["Kho đo"]-o["Khách khai"]);return o}
+function trimR(a){return a.map(function(r){var n={};for(var k in r)n[k]=typeof r[k]==="string"?r[k].trim():r[k];return n})}
+function dedup(a){var s={};return a.filter(function(r){if(s[r["Mã"]])return false;s[r["Mã"]]=1;return true})}
+function clean(){return dedup(trimR(RAW.map(mk))).map(addC)}
+function so(a,cu,at,k){return '<select data-'+at+'="'+k+'">'+a.map(function(o){var v=Array.isArray(o)?o[0]:o,l=Array.isArray(o)?o[1]:o;return '<option value="'+esc(v)+'"'+(v===cu?" selected":"")+'>'+esc(l)+'</option>'}).join("")+'</select>'}
+function lb(t,x){return '<label>'+t+x+'</label>'}
+function agg(l,v){if(v===VAL[0])return l.length;var k=v===VAL[1]?"Cước chênh":"Chênh",s=l.reduce(function(a,r){return a+(k==="Cước chênh"?Math.round(Math.max(0,r["Chênh"])*5000):r["Chênh"])},0);return v===VAL[3]?(l.length?r2(s/l.length):""):r2(s)}
+function uq(a,k){var s={};a.forEach(function(r){s[r[k]]=1});return Object.keys(s).sort()}
+function pvOut(){var all=clean(),d=all.filter(function(r){return pv.ff==="(không)"||pv.fv===""||r[pv.ff]===pv.fv}),R=pv.r!=="(không)",C=pv.c!=="(không)",rk=R?uq(d,pv.r):["Tổng cộng"],ck=C?uq(d,pv.c):[null];
+function sel(a,rv,cv){return a.filter(function(r){return(!R||r[pv.r]===rv)&&(!C||r[pv.c]===cv)})}
+var h='<div class="sheet"><table class="dt"><tr><th>'+esc(pv.v)+'</th>';ck.forEach(function(c){h+='<th>'+esc(c===null?"Giá trị":c)+'</th>'});if(C)h+='<th>Tổng cộng</th>';h+='</tr>';
+rk.forEach(function(rv){h+='<tr><th>'+esc(rv)+'</th>';ck.forEach(function(cv){h+='<td>'+agg(sel(d,rv,cv),pv.v)+'</td>'});if(C)h+='<td class="tot">'+agg(sel(d,rv,null).length?d.filter(function(r){return!R||r[pv.r]===rv}):[],pv.v)+'</td>';h+='</tr>'});
+if(R){h+='<tr><th>Tổng cộng</th>';ck.forEach(function(cv){h+='<td class="tot">'+agg(d.filter(function(r){return!C||r[pv.c]===cv}),pv.v)+'</td>'});if(C)h+='<td class="tot">'+agg(d,pv.v)+'</td>';h+='</tr>'}
+return h+'</table></div><p style="font-size:13px;color:var(--mute)">Dữ liệu nguồn: '+all.length+' đơn (đã làm sạch và bỏ trùng). Cước chênh = phần kho đo vượt khách khai x 5000 đồng/kg (số ví dụ).</p>'}
+function pvCtl(){var n=["(không)"],f=pv.ff==="(không)"?["(không)"]:["(không)"].concat(uq(clean(),pv.ff));return '<div class="ctl">'+lb("Rows (hàng)",so(n.concat(DIM),pv.r,"pv","r"))+lb("Columns (cột)",so(n.concat(DIM),pv.c,"pv","c"))+lb("Values (giá trị)",so(VAL,pv.v,"pv","v"))+lb("Filters: trường",so(n.concat(DIM),pv.ff,"pv","ff"))+(pv.ff!=="(không)"?lb("Filters: giá trị",so([["","(tất cả)"]].concat(uq(clean(),pv.ff)),pv.fv,"pv","fv")):"")+'</div>'}
+function cfTest(row,r){var k=K6[cf.col.charCodeAt(0)-65],v=row[k];
+if(cf.m==="fm"){if(cf.f.charAt(0)!=="=")return false;var sv=sh;sh={};K6.forEach(function(kk,j){sh[String.fromCharCode(65+j)+r]=row[kk]});cache={};busy={};var x=calc(cf.f.slice(1).replace(/(\$?[A-F]\$?)2(?!\d)/g,"$1"+r));sh=sv;cache={};return x===true||(typeof x==="number"&&x!==0)}
+if(cf.val==="")return false;if(cf.m==="gt")return+v>+cf.val;if(cf.m==="lt")return+v<+cf.val;if(cf.m==="eq")return String(v)===cf.val;return String(v).toLowerCase().indexOf(cf.val.toLowerCase())>=0}
+function cfSet(){var S=[];clean().forEach(function(row,i){var r=i+2;if(cfTest(row,r)){if(cf.row)K6.forEach(function(k,j){S.push(String.fromCharCode(65+j)+r)});else S.push(cf.col+r)}});return S}
+function cfOut(){var S=cfSet(),d=clean(),h='<div class="sheet"><table class="dt"><tr><th></th>';K6.forEach(function(k,j){h+='<th>'+String.fromCharCode(65+j)+'<br>'+k+'</th>'});h+='</tr>';
+d.forEach(function(row,i){var r=i+2;h+='<tr><th>'+r+'</th>';K6.forEach(function(k,j){var id=String.fromCharCode(65+j)+r;h+='<td class="'+(S.indexOf(id)>=0?"hl-"+cf.color.slice(0,3):"")+'">'+esc(row[k])+'</td>'});h+='</tr>'});return h+'</table></div><p style="font-size:13px;color:var(--mute)">Đang tô '+S.length+' ô. Công thức viết cho dòng 2 (ví dụ =$C2="Khiếu nại"), Excel tự áp cho các dòng dưới.</p>'}
+function cfCtl(){return '<div class="ctl">'+lb("Kiểu quy tắc",so([["gt","Ô lớn hơn (Greater Than)"],["lt","Ô nhỏ hơn (Less Than)"],["eq","Ô bằng (Equal To)"],["ct","Văn bản chứa (Text that Contains)"],["fm","Dùng công thức (Use a formula)"]],cf.m,"cf","m"))+lb("Áp dụng cho cột",so(K6.map(function(k,j){return[String.fromCharCode(65+j),String.fromCharCode(65+j)+" - "+k]}),cf.col,"cf","col"))+(cf.m==="fm"?lb("Công thức",'<input type="text" data-cf="f" value="'+esc(cf.f)+'" placeholder="=$F2>0.5">'):lb("Giá trị",'<input type="text" data-cf="val" value="'+esc(cf.val)+'">'))+lb("Màu tô",so([["red","Đỏ nhạt"],["yellow","Vàng"],["green","Xanh lá"]],cf.color,"cf","color"))+'<label style="flex-direction:row;align-items:center;gap:6px;font-size:14px;color:var(--ink)"><input type="checkbox" data-cf="row"'+(cf.row?" checked":"")+'> Tô cả dòng</label></div>'}
+var PQ={trim:["Trimmed Text","Bỏ khoảng trắng thừa",trimR],dedup:["Removed Duplicates","Xóa dòng trùng theo Mã",dedup],loai:["Filtered Rows","Giữ Loại = Lệch cân",function(a){return a.filter(function(r){return r["Loại"]==="Lệch cân"})}],kn:["Filtered Rows","Giữ Trạng thái = Khiếu nại",function(a){return a.filter(function(r){return r["Trạng thái"]==="Khiếu nại"})}],chenh:["Added Custom","Thêm cột Chênh = Kho đo - Khách khai",function(a){return a.map(function(r){var n={};for(var k in r)n[k]=r[k];return addC(n)})}],sort:["Sorted Rows","Sắp Chênh giảm dần",function(a){return a.length&&a[0]["Chênh"]===undefined?a:a.map(function(r,i){return[r,i]}).sort(function(x,y){return y[0]["Chênh"]-x[0]["Chênh"]||x[1]-y[1]}).map(function(p){return p[0]})}],drop:["Removed Columns","Bỏ cột Bưu cục",function(a){return a.map(function(r){var n={};for(var k in r)if(k!=="Bưu cục")n[k]=r[k];return n})}]};
+function pqRun(s){var a=RAW.concat(pq.src?NEWR:[]).map(mk);s.forEach(function(k){a=PQ[k][2](a)});return a}
+function pqCtl(){var h='<p><b>Nguồn:</b> bảng "Don_check_can" ('+(RAW.length+(pq.src?NEWR.length:0))+' dòng thô'+(pq.src?", đã có dữ liệu mới":"")+'). <b>Thêm bước:</b></p><div class="tl">';
+Object.keys(PQ).forEach(function(k){h+='<button class="pill" data-act="pqadd" data-s="'+k+'"'+(pq.steps.indexOf(k)>=0?" disabled style=\"opacity:.4\"":"")+'>+ '+PQ[k][1]+'</button>'});
+h+='</div><p><b>Applied Steps (các bước đã áp dụng, chạy từ trên xuống):</b></p><div class="apl"><span>Source</span>';pq.steps.forEach(function(k,i){h+='<span>'+PQ[k][0]+': '+PQ[k][1]+' <button data-act="pqdel" data-i="'+i+'" aria-label="Xóa bước">✕</button></span>'});
+return h+'</div><div class="bt"><button class="btn sm" data-act="pqref">'+(pq.src?"Đã Refresh: có dữ liệu mới":"Dữ liệu mới về, bấm Refresh")+'</button><button class="btn alt sm" data-act="pqrst">Làm lại từ đầu</button></div>'}
+function pqOut(){var a=pqRun(pq.steps),ks=a.length?Object.keys(a[0]):["Mã","Bưu cục","Loại","Trạng thái","Khách khai","Kho đo"],h='<p><b>Kết quả (Preview):</b> '+a.length+' dòng</p><div class="sheet"><table class="dt"><tr>';ks.forEach(function(k){h+='<th>'+k+'</th>'});h+='</tr>';
+a.forEach(function(r){h+='<tr>';ks.forEach(function(k){h+='<td>'+(typeof r[k]==="string"?esc(r[k].replace(/ /g,"␣")):r[k])+'</td>'});h+='</tr>'});return h+'</table></div><p style="font-size:13px;color:var(--mute)">Dấu ␣ là khoảng trắng thừa. Thứ tự bước quan trọng: phải Trim trước khi xóa trùng thì "880001␣" và "880001" mới được coi là một.</p>'}
+function exSet(f){var S=[];clean().forEach(function(r,i){f(r)&&S.push(i+2)});return S}
+function sameSet(a,b){return a.slice().sort().join()===b.slice().sort().join()}
+var TK=[[["Đếm số đơn theo Loại (hàng) và Trạng thái (cột).",function(){return pv.r==="Loại"&&pv.c==="Trạng thái"&&pv.v===VAL[0]&&pv.ff==="(không)"}],["Tổng cước chênh theo Bưu cục (hàng), không có cột.",function(){return pv.r==="Bưu cục"&&pv.c==="(không)"&&pv.v===VAL[1]&&pv.ff==="(không)"}],["Đếm số đơn theo Bưu cục, chỉ tính đơn có Loại = Lệch cân (dùng Filters).",function(){return pv.r==="Bưu cục"&&pv.c==="(không)"&&pv.v===VAL[0]&&pv.ff==="Loại"&&pv.fv==="Lệch cân"}]],
+[["Tô đỏ các ô ở cột F (Chênh) lớn hơn 0.5.",function(){var e=[];exSet(function(r){return r["Chênh"]>0.5}).forEach(function(r){e.push("F"+r)});return sameSet(cfSet(),e)}],["Tô cả dòng của các đơn có Trạng thái = Khiếu nại (gợi ý: dùng công thức =$C2=\"Khiếu nại\" và tick Tô cả dòng).",function(){var e=[];exSet(function(r){return r["Trạng thái"]==="Khiếu nại"}).forEach(function(r){K6.forEach(function(k,j){e.push(String.fromCharCode(65+j)+r)})});return sameSet(cfSet(),e)}],["Tô các dòng vừa Lệch cân vừa Chênh > 0.5 (gợi ý: =AND($B2=\"Lệch cân\",$F2>0.5), tick Tô cả dòng).",function(){var e=[];exSet(function(r){return r["Loại"]==="Lệch cân"&&r["Chênh"]>0.5}).forEach(function(r){K6.forEach(function(k,j){e.push(String.fromCharCode(65+j)+r)})});return sameSet(cfSet(),e)}]],
+[["Làm sạch, bỏ trùng, giữ đơn Lệch cân, thêm cột Chênh, sắp Chênh giảm dần.",function(){var a=pqRun(pq.steps),b=pqRun(["trim","dedup","loai","chenh","sort"]);return JSON.stringify(a.map(function(r){return r["Mã"]}))===JSON.stringify(b.map(function(r){return r["Mã"]}))&&a.length>0&&a[0]["Chênh"]!==undefined}],["Giữ nguyên các bước trên, rồi bấm Refresh khi dữ liệu mới về: kết quả phải cập nhật đúng.",function(){var a=pqRun(pq.steps),b=pqRun(["trim","dedup","loai","chenh","sort"]);return pq.src===1&&JSON.stringify(a.map(function(r){return r["Mã"]}))===JSON.stringify(b.map(function(r){return r["Mã"]}))&&a.length>0}],["Chỉ giữ đơn Khiếu nại đã làm sạch, không trùng, và bỏ cột Bưu cục.",function(){var a=pqRun(pq.steps),b=pqRun(["trim","dedup","kn","drop"]);return JSON.stringify(a)===JSON.stringify(b)&&a.length>0}]]];
+var GD=[["Chọn 1 ô trong bảng dữ liệu (bảng phải có tiêu đề cột, không có dòng trống).","Tab Insert, bấm PivotTable, chọn New Worksheet, OK.","Ở khung PivotTable Fields bên phải, kéo trường vào 4 ô: Filters, Columns, Rows, Values.","Trong Values, bấm vào trường, chọn Value Field Settings để đổi Count, Sum hoặc Average.","Muốn xem chi tiết một số, bấm đúp vào số đó, Excel tách ra sheet mới.","Khi dữ liệu gốc đổi: chuột phải vào Pivot, chọn Refresh (hoặc Data, Refresh All).","Mẹo: đổi vùng dữ liệu thành Table (Ctrl+T) trước, Pivot sẽ tự lấy thêm dòng mới."],
+["Bôi đen vùng cần tô màu (ví dụ cột Chênh, hoặc cả bảng nếu muốn tô cả dòng).","Tab Home, bấm Conditional Formatting.","Quy tắc nhanh: Highlight Cells Rules, chọn Greater Than, Less Than, Text that Contains… rồi nhập giá trị và chọn màu.","Quy tắc linh hoạt: New Rule, Use a formula to determine which cells to format, gõ công thức viết cho ô đầu tiên của vùng chọn.","Muốn tô cả dòng: bôi đen cả bảng và khóa cột bằng $ (ví dụ =$C2=\"Khiếu nại\"). Dấu $ trước chữ cột giữ nguyên cột, số dòng không có $ để Excel tự chạy xuống.","Quản lý và sửa quy tắc: Conditional Formatting, Manage Rules.","Xóa: Conditional Formatting, Clear Rules."],
+["Tab Data, bấm Get Data (hoặc From Table/Range nếu dữ liệu đã nằm trong Excel). Nên Ctrl+T biến vùng dữ liệu thành Table trước.","Cửa sổ Power Query mở ra: mỗi thao tác của bạn tự ghi thành một dòng trong Applied Steps bên phải.","Làm sạch: Transform, Format, Trim. Xóa trùng: Home, Remove Rows, Remove Duplicates.","Lọc: bấm mũi tên ở tiêu đề cột và chọn giá trị. Thêm cột: Add Column, Custom Column.","Xong bấm Home, Close & Load để đưa kết quả về Excel.","Khi có dữ liệu mới: dán thêm vào bảng nguồn rồi Data, Refresh All. Mọi bước chạy lại tự động.","Muốn ghép nhiều file cùng thư mục: Get Data, From File, From Folder, Combine."]];
+var TN=[["Pivot Table","Báo cáo tổng hợp bằng kéo thả. Chỉnh các ô bên dưới giống như kéo trường trong Excel."],["Conditional Formatting","Tự tô màu theo điều kiện. Chọn quy tắc và xem bảng đổi màu ngay."],["Power Query","Dây chuyền làm sạch dữ liệu tự động. Thêm bước, xóa bước, rồi Refresh khi có dữ liệu mới."]];
+function tkHTML(){var h='<h2>Nhiệm vụ</h2>';TK[tl].forEach(function(t,i){var d=st["t"+tl+"_"+i];h+='<div class="tk"><b>'+(i+1)+'. '+esc(t[0])+'</b><button class="btn sm" data-act="tchk" data-k="'+i+'">Kiểm tra</button><i id="tr'+i+'" style="color:var(--grn)">'+(d?"✓ Xong":"")+'</i></div>'});return h}
+function simOut(){var o=document.getElementById("out");o.innerHTML=tl===0?pvOut():tl===1?cfOut():pqOut()}
+function simAll(){document.getElementById("ctl").innerHTML=tl===0?pvCtl():tl===1?cfCtl():pqCtl();simOut()}
+function toolsPage(){var h='<section class="hero"><p style="margin:0;opacity:.7">Công cụ Master</p><h1 class="big">'+TN[tl][0]+'</h1><p>'+TN[tl][1]+'</p></section><div class="body"><div class="tl">';
+TN.forEach(function(t,i){h+='<button class="pill" data-tl="'+i+'" aria-pressed="'+(i===tl)+'">'+t[0]+'</button>'});
+h+='</div><div class="cols"><div><h2>1. Làm trong Excel thật</h2><ol class="ex">';GD[tl].forEach(function(s){h+='<li>'+esc(s)+'</li>'});
+h+='</ol></div><div><h2>2. Thử ngay trên trang</h2><div class="lab"><div class="lab-h">Mô phỏng '+TN[tl][0]+'</div><div class="lab-b"><div id="ctl"></div><div id="out"></div></div></div>'+tkHTML()+'</div></div><p class="note">Dữ liệu trong bài chỉ là ví dụ để luyện tập.</p></div>';
+document.getElementById("main").innerHTML=h;simAll()}
+document.addEventListener("click",function(e){var t=e.target.closest("[data-act],[data-tl]");if(!t||cur!==9)return;
+if(t.dataset.tl!==undefined){tl=+t.dataset.tl;toolsPage();return}var a=t.dataset.act;
+if(a==="pqadd"&&pq.steps.indexOf(t.dataset.s)<0)pq.steps.push(t.dataset.s);if(a==="pqdel")pq.steps.splice(+t.dataset.i,1);if(a==="pqref")pq.src=1;if(a==="pqrst")pq={steps:[],src:0};
+if(a&&a.indexOf("pq")===0)simAll();
+if(a==="tchk"){var k=+t.dataset.k,ok=TK[tl][k][1](),r=document.getElementById("tr"+k);if(ok){st["t"+tl+"_"+k]=1;save();r.style.color="var(--grn)";r.textContent="✓ Chính xác!"}else{r.style.color="var(--red)";r.textContent="Chưa đúng, xem lại các lựa chọn"}}});
+document.addEventListener("change",function(e){var t=e.target,d=t.dataset;if(cur!==9)return;
+if(d.pv){pv[d.pv]=t.value;if(d.pv==="ff")pv.fv="";simAll()}
+if(d.cf){if(d.cf==="row")cf.row=t.checked;else cf[d.cf]=t.value;simAll()}});
+document.addEventListener("input",function(e){var t=e.target,d=t.dataset;if(cur===9&&d.cf&&(d.cf==="val"||d.cf==="f")){cf[d.cf]=t.value;simOut()}});
+
+var SB={"1": {"B2": "=UPPER(A2)", "B3": "=UPPER(A3)"}, "2": {"B2": "=LEFT(A2,3)", "C2": "=RIGHT(A2,6)", "D2": "=MID(A2,5,3)"}, "3": {"E2": "=SUM(B2:B6)", "E3": "=AVERAGE(B2:B6)", "E4": "=MAX(B2:B6)", "E5": "=MIN(B2:B6)"}, "4": {"B2": "=ROUNDUP(A2,0)", "B3": "=ROUNDUP(A3,0)", "C2": "=ROUNDDOWN(A2,1)", "C3": "=INT(A3)"}, "5": {"C2": "=IF(B2>=10,\"Nặng\",IF(B2>=1,\"Vừa\",\"Nhẹ\"))", "C3": "=IF(B3>=10,\"Nặng\",IF(B3>=1,\"Vừa\",\"Nhẹ\"))", "C4": "=IF(B4>=10,\"Nặng\",IF(B4>=1,\"Vừa\",\"Nhẹ\"))"}, "6": {"G2": "=SUMIF(C2:C7,\"Cước phát sinh\",E2:E7)", "G3": "=COUNTIF(E2:E7,\">5000\")", "G4": "=COUNTA(A2:A7)"}, "7": {"B2": "=IFERROR(VLOOKUP(A2,$E$2:$F$4,2,FALSE),\"Không có\")", "B3": "=IFERROR(VLOOKUP(A3,$E$2:$F$4,2,FALSE),\"Không có\")", "C2": "=XLOOKUP(A2,$E$2:$E$4,$F$2:$F$4,\"Không có\")", "C3": "=XLOOKUP(A3,$E$2:$E$4,$F$2:$F$4,\"Không có\")"}, "8": {"B2": "=IF(COUNTIF($A$2:$A$7,A2)>1,\"Trùng\",\"Duy nhất\")", "B3": "=IF(COUNTIF($A$2:$A$7,A3)>1,\"Trùng\",\"Duy nhất\")", "B5": "=IF(COUNTIF($A$2:$A$7,A5)>1,\"Trùng\",\"Duy nhất\")"}, "9": {"D2": "=MAX(0,C2-B2)", "E2": "=D2*$J$1", "D3": "=MAX(0,C3-B3)", "E3": "=D3*$J$1"}, "10": {"D2": "=IF(AND(B2>0.5,C2=\"Khiếu nại\"),\"Ưu tiên\",\"Thường\")", "D3": "=IF(AND(B3>0.5,C3=\"Khiếu nại\"),\"Ưu tiên\",\"Thường\")", "D4": "=IF(AND(B4>0.5,C4=\"Khiếu nại\"),\"Ưu tiên\",\"Thường\")"}, "11": {"B2": "=INDEX($F$2:$F$4,MATCH(A2,$E$2:$E$4,0))", "B3": "=INDEX($F$2:$F$4,MATCH(A3,$E$2:$E$4,0))"}, "12": {"E2": "=SUMPRODUCT(B2:B5,C2:C5)"}, "13": {"F2": "=C2*D2*E2/$J$1", "G2": "=CEILING(MAX(B2,F2),$J$2)", "F3": "=C3*D3*E3/$J$1", "G3": "=CEILING(MAX(B3,F3),$J$2)", "F4": "=C4*D4*E4/$J$1", "G4": "=CEILING(MAX(B4,F4),$J$2)"}, "14": {"G2": "=COUNTIF(C2:C7,\"Lệch cân\")/COUNTA(A2:A7)", "G3": "=ROUND(G2*100,1)"}, "15": {"D2": "=\"Chào \"&A2&\", đơn \"&B2&\" lệch \"&C2&\"kg\""}, "16": {"E2": "=MAX(B2:B6)", "E3": "=INDEX(A2:A6,MATCH(E2,B2:B6,0))"}},SP={"0": {"B2": "=TRIM(A2)", "B3": "=TRIM(A3)", "C2": "=LEN(B2)"}, "1": {"F2": "=C2*D2*E2/$J$1", "G2": "=MAX(B2,F2)", "G3": "=MAX(B3,C3*D3*E3/$J$1)"}, "2": {"D2": "=ROUND(C2-B2,2)", "D3": "=ROUND(C3-B3,2)", "D4": "=ROUND(C4-B4,2)", "E2": "=IF(ABS(D2)>$J$1,\"Lệch cân\",\"OK\")", "E3": "=IF(ABS(D3)>$J$1,\"Lệch cân\",\"OK\")", "E4": "=IF(ABS(D4)>$J$1,\"Lệch cân\",\"OK\")"}, "3": {"C2": "=IF(COUNTIF($E$2:$E$5,A2)>0,\"Có\",\"Không có\")", "C3": "=IF(COUNTIF($E$2:$E$5,A3)>0,\"Có\",\"Không có\")"}, "4": {"G2": "=COUNTIF(C2:C7,\"Lệch cân\")", "G3": "=COUNTIFS(C2:C7,\"Lệch cân\",D2:D7,\"Chờ xử lý\")", "G4": "=SUMIFS(E2:E7,C2:C7,\"Lệch cân\")"}, "5": {"H2": "=COUNTIF($C$2:$C$7,G2)", "H3": "=COUNTIF($C$2:$C$7,G3)", "H4": "=COUNTIF($C$2:$C$7,G4)"}, "6": {"F2": "=C2*D2*E2/$J$1", "G2": "=CEILING(MAX(B2,F2),$J$2)"}};B.forEach(function(b){b.s=SB[b.id]});P.forEach(function(p,i){p.s=SP[i]});
+var ER=[
+["#N/A","Excel không tìm thấy giá trị cần tra (thường gặp nhất ở VLOOKUP, XLOOKUP).",["Mã có khoảng trắng thừa ở đầu hoặc cuối.","Một bên mã lưu dạng Text, một bên dạng Number.","Mã thật sự không có trong bảng tra.","Vùng tra không bắt đầu từ cột chứa mã."],["Gõ =LEN(A2) ở cả 2 bảng, nếu độ dài khác nhau thì dùng =TRIM(A2) rồi Paste Values.","Ô có tam giác xanh ở góc là số lưu dạng text: chọn ô, bấm dấu chấm than, Convert to Number.","Kiểm tra VLOOKUP đã có FALSE ở cuối chưa.","Nếu muốn hiện chữ thay lỗi: =IFERROR(VLOOKUP(...),\"Không có\")."]],
+["#VALUE!","Công thức tính toán với ô chứa chữ.",["Ô cân có chữ \"kg\" hoặc khoảng trắng.","Dấu thập phân sai nên số thành text (1.5 và 1,5).","Phép tính giữa ô chữ và ô số."],["Nhấn Ctrl+F tìm \"kg\" rồi Ctrl+H thay bằng để trống.","Chọn ô nghi ngờ, kiểm tra căn lề: số thường căn phải, text căn trái.","Dùng =VALUE(A2) để đổi text số thành số."]],
+["#REF!","Công thức trỏ đến ô đã bị xóa.",["Xóa cột hoặc dòng mà công thức đang dùng.","Copy công thức đi nơi làm tham chiếu chạy ra ngoài bảng."],["Bấm Ctrl+Z ngay sau khi xóa nhầm.","Nếu đã lưu: sửa lại tham chiếu trong thanh công thức.","Lần sau muốn bỏ cột thì ẩn cột (Hide) thay vì xóa."]],
+["#DIV/0!","Công thức chia cho 0 hoặc chia cho ô trống.",["Ô hệ số chia (ví dụ CaiDat!B2) đang trống hoặc bằng 0."],["Điền hệ số vào ô cài đặt.","Bọc kiểm tra: =IF(J1=0,\"\",C2*D2*E2/J1)."]],
+["#NAME?","Excel không hiểu tên hàm hoặc chữ trong công thức.",["Gõ sai tên hàm (VLOKUP thay vì VLOOKUP).","Chữ không đặt trong dấu nháy kép.","Hàm mới như XLOOKUP, FILTER không có ở Excel 2016 trở về trước."],["Kiểm tra chính tả tên hàm.","Chữ phải có nháy kép: \"Lệch cân\".","Dùng INDEX+MATCH thay cho XLOOKUP nếu Excel cũ."]],
+["####","Cột quá hẹp để hiển thị số hoặc ngày.",["Cột bị thu nhỏ.","Ngày hoặc giờ âm."],["Nhấp đúp vào mép phải tiêu đề cột để tự giãn.","Kiểm tra công thức trừ ngày có bị âm không."]],
+["8.8E+11 hoặc mất số cuối của mã","Excel đổi mã dài thành số khoa học và cắt các số cuối.",["Cột để định dạng General khi dán mã vào."],["Đặt cột về Text TRƯỚC khi dán (Format Cells, Text).","Nếu đã mất số cuối thì không khôi phục được, phải lấy lại dữ liệu gốc.","Khi xuất file từ hệ thống, chọn xuất cột mã dạng text nếu có thể."]],
+["Công thức hiện nguyên chữ, không ra kết quả","Ô đang để dạng Text hoặc Excel đang tắt tự tính.",["Ô định dạng Text nên coi công thức là chữ.","Đang bật Show Formulas.","Calculation Options đang để Manual."],["Đổi ô về General, bấm F2 rồi Enter.","Tab Formulas, tắt Show Formulas.","Tab Formulas, Calculation Options, chọn Automatic."]],
+["Báo lỗi ngay khi gõ công thức (There is a problem with this formula)","Máy dùng dấu phân cách khác với dấu bạn gõ.",["Máy cài kiểu Việt Nam hoặc châu Âu dùng dấu chấm phẩy (;) thay cho dấu phẩy (,)."],["Thử gõ =SUM(1;2). Nếu chạy thì máy bạn dùng ;.","Đổi toàn bộ dấu , trong công thức mẫu thành ;.","Xem dấu thập phân: máy dùng , thì gõ 1,5, máy dùng . thì gõ 1.5."]]];
+var KS=[["Ctrl + Shift + L","Bật/tắt Filter"],["Ctrl + T","Biến vùng dữ liệu thành Table"],["F4","Đổi tham chiếu thành $A$1 (khóa ô)"],["F2","Sửa nội dung ô"],["Ctrl + D","Sao công thức từ ô trên xuống"],["Ctrl + Shift + ↓","Chọn từ ô hiện tại xuống cuối dữ liệu"],["Ctrl + ↓","Nhảy xuống cuối dữ liệu"],["Alt + =","Tự điền hàm SUM"],["Ctrl + F / Ctrl + H","Tìm / Thay thế"],["Ctrl + Z / Ctrl + Y","Hoàn tác / Làm lại"],["Ctrl + 1","Mở Format Cells"],["Alt + H, O, I","Tự giãn cột vừa nội dung"]];
+function errPage(){var h='<section class="hero"><p style="margin:0;opacity:.7">Cứu nguy khi gặp lỗi</p><h1 class="big">Sửa lỗi thường gặp</h1><p>Bấm vào từng lỗi để xem nguyên nhân và cách sửa theo thứ tự từ dễ kiểm tra nhất.</p></section><div class="body"><div class="fg" style="margin-top:20px">';
+ER.forEach(function(e){h+='<details class="fc"><summary style="cursor:pointer;font-weight:700;font-size:17px">'+esc(e[0])+'</summary><p>'+esc(e[1])+'</p><p><b>Nguyên nhân hay gặp:</b></p><ul>'+e[2].map(function(x){return'<li>'+esc(x)+'</li>'}).join("")+'</ul><p><b>Cách sửa (làm lần lượt):</b></p><ol>'+e[3].map(function(x){return'<li>'+esc(x)+'</li>'}).join("")+'</ol></details>'});
+h+='</div><h2>Phím tắt đáng nhớ</h2><div class="sheet"><table class="dt"><tr><th>Phím</th><th>Tác dụng</th></tr>';KS.forEach(function(k){h+='<tr><td><b>'+esc(k[0])+'</b></td><td style="white-space:normal">'+esc(k[1])+'</td></tr>'});
+h+='</table></div><h2>File Excel mẫu</h2><p>File <b>File_mau_check_can.xlsx</b> đã được gửi kèm trong cuộc trò chuyện với Claude: có sẵn công thức cân quy đổi, lệch cân, tô màu tự động, dropdown trạng thái và báo cáo cuối ngày. Ô vàng ở sheet CaiDat là số ví dụ, thay theo quy định J&amp;T.</p></div>';document.getElementById("main").innerHTML=h}
+document.addEventListener("click",function(e){var t=e.target;if(t.id!=="hnt"&&t.id!=="ans"&&t.id!=="fil")return;if(!AP||!AP.s)return;var s=AP.s,ks=Object.keys(s),bx=document.getElementById("hbox");bx.style.display="block";
+if(t.id==="hnt"){var f={};ks.forEach(function(k){(s[k].match(/[A-Z]+(?=\()/g)||[]).forEach(function(n){f[n]=1})});bx.innerHTML="<b>Gợi ý:</b> hàm cần dùng: "+Object.keys(f).join(", ")+". Các ô cần gõ: "+ks.join(", ")+". Nhớ gõ dấu = ở đầu và dùng $ để khóa ô cố định."}
+if(t.id==="ans")bx.innerHTML="<b>Đáp án:</b><br>"+ks.map(function(k){return k+": <code>"+esc(s[k])+"</code>"}).join("<br>")+'<div class="bt"><button class="btn sm" id="fil">Điền đáp án vào bảng</button></div>';
+if(t.id==="fil"){ks.forEach(function(k){sh[k]=s[k]});refresh()}});
+
+render();
+</script></body></html>
