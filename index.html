@@ -33,7 +33,7 @@ h2{font-size:22px;margin:36px 0 12px}
 .step input{width:22px;height:22px;margin-top:3px;accent-color:var(--grn);flex:0 0 auto}.step.on{opacity:.6}.step.on .st{text-decoration:line-through}
 .st{font-weight:700;cursor:pointer}.sd{margin:2px 0 0;color:var(--mute);font-size:15px}
 .code{background:var(--code);color:#f4f1e8;border-radius:8px;padding:8px 10px;margin-top:8px;display:flex;gap:10px;align-items:center}
-.code code{font:500 14px/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap;word-break:break-all;overflow:visible;flex:1;min-width:0;background:none;padding:0}
+.code code{font:500 14px/1.5 ui-monospace,Consolas,monospace;overflow-x:auto;white-space:pre;flex:1}
 .cp{border:1px solid #667;background:transparent;color:#f4f1e8;border-radius:6px;padding:4px 10px;font:500 13px inherit;font-family:inherit;cursor:pointer}
 .lab{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
 .lab-h{background:var(--grn);color:#fff;padding:10px 16px;font-weight:700}
@@ -62,10 +62,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--red);outline-of
 #q{width:100%;max-width:420px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
 .fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.fc{min-width:0} 
-.fc h3{margin:0 0 6px;font-size:17px;display:flex;flex-wrap:wrap;align-items:center;gap:6px} 
-.fc h3 .tag{margin-left:0;white-space:nowrap} 
-.fc p{margin:6px 0;font-size:14px;color:var(--mute)}
+.fc h3{margin:0 0 6px;font-size:17px}.fc p{margin:6px 0;font-size:14px;color:var(--mute)}
 .tag{font-size:11px;font-weight:700;border-radius:10px;padding:1px 8px;margin-left:6px;background:var(--grnsoft);color:var(--grn);vertical-align:middle}
 .tag.m{background:var(--redsoft);color:var(--red)}.tag.r{background:var(--tgt);color:var(--ink)}
 .ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:12px}.ctl label{display:flex;flex-direction:column;font-size:12px;color:var(--mute);gap:3px}
